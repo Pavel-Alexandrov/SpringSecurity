@@ -1,6 +1,8 @@
 package crud.model;
 
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.annotation.Resource;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +13,7 @@ import java.io.Serializable;
 @Entity
 @Resource
 @Table(name = "roles")
-public class Role implements Serializable {
+public class Role implements Serializable, GrantedAuthority {
 
     @Id
     @Column(name = "login")
@@ -42,5 +44,10 @@ public class Role implements Serializable {
 
     public void setAccess(String access) {
         this.access = access;
+    }
+
+    @Override
+    public String getAuthority() {
+        return access;
     }
 }

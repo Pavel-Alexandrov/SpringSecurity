@@ -1,5 +1,6 @@
 package crud.service;
 
+import crud.model.Role;
 import crud.model.User;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserService {
     public User getUserById(int id);
 
     public User getUserByLogin(String login);
+
+    public Role getRoleByLogin(String login);
 }
