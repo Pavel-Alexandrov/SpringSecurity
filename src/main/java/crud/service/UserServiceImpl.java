@@ -1,6 +1,8 @@
 package crud.service;
 
+import crud.dao.RoleDao;
 import crud.dao.UserDao;
+import crud.model.Role;
 import crud.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserDao userDao;
 
+    @Autowired
+    public RoleDao roleDao;
+
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
@@ -20,7 +25,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
+        Role role = new Role(user.getLogin(), "user");
+
         userDao.addUser(user);
+        roleDao.addRole(role);
     }
 
     @Override
@@ -30,7 +38,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        userDao.deleteUser(id);
+        User user = userDao.deleteUser(id);
+        roleDao.deleteRole(
+                roleDao.getRoleByLogin(
+                        user.getLogin()
+                        )
+        );
     }
 
     @Override

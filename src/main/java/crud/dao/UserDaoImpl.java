@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public User deleteUser(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User user = entityManager.find(User.class, id);
         if (user != null) {
@@ -49,6 +49,7 @@ public class UserDaoImpl implements UserDao {
             entityManager.flush();
             entityManager.getTransaction().commit();
         }
+        return user;
     }
 
     @Override
