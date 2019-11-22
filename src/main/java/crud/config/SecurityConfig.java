@@ -13,6 +13,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-
+        httpSecurity
+                .csrf().disable()
+                .formLogin()
+                    .loginPage("/index")
+                    .loginProcessingUrl("/login")
+                    .usernameParameter("login")
+                    .passwordParameter("password")
+                .permitAll()
+                .and()
+                .logout()
+                    .permitAll()
+                    .invalidateHttpSession(true)
+                    .logoutUrl("/index")
+                    .logoutSuccessUrl("/index")
+                .and()
+                .authorizeRequests()
+                    .antMatchers("/admin/**")
+                        .hasRole("admin")
+                    .antMatchers("/user/**")
+                        .hasRole("user")
+                .and()
+                .httpBasic();
     }
 }
