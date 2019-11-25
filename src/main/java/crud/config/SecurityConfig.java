@@ -1,15 +1,23 @@
 package crud.config;
 
+import crud.security.AuthHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private AuthHandler authHandler;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -20,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginProcessingUrl("/login")
                     .usernameParameter("login")
                     .passwordParameter("password")
+                    .successHandler(authHandler)
                 .permitAll()
                 .and()
                 .logout()
@@ -30,10 +39,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/admin/**")
-                        .hasRole("admin")
+                        .hasAuthority("admin")//посмотреть
                     .antMatchers("/user/**")
                         .hasRole("user")
                 .and()
                 .httpBasic();
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthHandler getAuthHandler() {
+        return new AuthHandler();
+    }
 }
+
+//добавить passwordEncoder
+//d security authentifHandler

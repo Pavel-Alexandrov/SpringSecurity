@@ -5,6 +5,7 @@ import crud.dao.UserDao;
 import crud.model.Role;
 import crud.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public RoleDao roleDao;
 
+    @Autowired
+    public PasswordEncoder passwordEncoder;
+
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
@@ -26,6 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(User user) {
         Role role = new Role(user.getLogin(), "user");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));  //кодирование пароля при регистрации, надеюсь, в нужном месте поставил
 
         userDao.addUser(user);
         roleDao.addRole(role);

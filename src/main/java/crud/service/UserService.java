@@ -1,5 +1,6 @@
 package crud.service;
 
+import crud.dao.UserDao;
 import crud.model.Role;
 import crud.model.User;
 

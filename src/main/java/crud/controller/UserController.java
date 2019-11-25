@@ -40,7 +40,7 @@ public class UserController {
     }
 
     //Админские страницы
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/lo", method = RequestMethod.POST)
     public String userList(Model model) {
         model.addAttribute("newUser", new User());
         model.addAttribute("userList", userService.getAllUsers());
@@ -75,7 +75,7 @@ public class UserController {
     public String updateUserGet(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
 
-        return "/admin/update";   //что за дичь тут твориться, почему он лезет по url update/update.jsp, а не по update.jsp? пришлось добавить ../
+        return "/admin/update";
     }
 
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
