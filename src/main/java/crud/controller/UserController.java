@@ -16,7 +16,9 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    @RequestMapping(value = "/log", method = RequestMethod.POST)
+    //Юзерские страницы
+
+    @RequestMapping(value = "/user/home", method = RequestMethod.POST)
     public String UserProfile(@ModelAttribute("login") String login, Model model) {
         User user = userService.getUserByLogin(login);
         model.addAttribute("user", user);
@@ -24,7 +26,6 @@ public class UserController {
         return "/user/profile";
     }
 
-    //Юзерские страницы
     @RequestMapping(value = "/user/update/{id}", method = RequestMethod.GET)
     public String userUpdateGet(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     //Админские страницы
-    @RequestMapping(value = "/lo", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/home", method = RequestMethod.POST)
     public String userList(Model model) {
         model.addAttribute("newUser", new User());
         model.addAttribute("userList", userService.getAllUsers());

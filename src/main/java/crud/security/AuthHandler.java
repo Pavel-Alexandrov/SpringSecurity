@@ -2,6 +2,8 @@ package crud.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -16,6 +18,8 @@ public class AuthHandler implements AuthenticationSuccessHandler {
         boolean isUser = false;
         boolean isAdmin = false;
 
+        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("admin")) {
@@ -26,7 +30,11 @@ public class AuthHandler implements AuthenticationSuccessHandler {
         }
 
         if (isAdmin) {
-            return ;
+            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/admin/home");
+        } else if (isUser) {
+            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/user/home");
+        } else {
+            throw new IOException("не установлены права");
         }
     }
 }
