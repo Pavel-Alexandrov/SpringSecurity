@@ -33,6 +33,9 @@ public class User implements Serializable, UserDetails {
     @Column(name = "password")
     private String password;
 
+    //добавить поле role many-to-many ets
+    //list/set roles
+
     public User(int id, String name, String login, String password) {
         this.id = id;
         this.name = name;

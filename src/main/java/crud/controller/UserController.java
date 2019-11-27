@@ -16,6 +16,13 @@ public class UserController {
     @Autowired
     public UserService userService;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String test() {
+        return "/auth";
+    }
+
+
+
     //Юзерские страницы
 
     @RequestMapping(value = "/user/home", method = RequestMethod.POST)

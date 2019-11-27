@@ -5,7 +5,7 @@
 </head>
 <body>
 <h3>Я вас не знаю, пожалуйста, авторизуйтесь:</h3>
-<form action="/login" method="post">
+<form action="/log" method="post">
     <p>Login</p>
     <p><input type="text" name="login"></p>
     <p>Password</p>
