@@ -4,11 +4,10 @@ package crud.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.annotation.Resource;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Resource
@@ -16,34 +15,47 @@ import java.io.Serializable;
 public class Role implements Serializable, GrantedAuthority {
 
     @Id
-    @Column(name = "login")
-    private String login;
+    @Column(name = "roleID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int roleId;
 
     @Column(name = "access")
     private String access;
 
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>(0);
+
     public Role() {
     }
 
-    public Role(String login, String access) {
-        this.login = login;
+    public Role(int id, String access, Set<User> users) {
+        this.roleId = id;
         this.access = access;
+        this.users = users;
     }
 
-    public String getLogin() {
-        return login;
+    public int getId() {
+        return roleId;
     }
 
     public String getAccess() {
         return access;
     }
 
-    public void setLogin(String name) {
-        this.login = name;
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setId(int id) {
+        this.roleId = id;
     }
 
     public void setAccess(String access) {
         this.access = access;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

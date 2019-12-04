@@ -21,6 +21,11 @@ public class UserController {
         return "/auth";
     }
 
+/*    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public String test2() {
+        return "/user/profile";
+    }*/
+
 
 
     //Юзерские страницы

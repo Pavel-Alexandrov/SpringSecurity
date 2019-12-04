@@ -29,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .formLogin()
-                    .loginPage("/auth")
+                    .loginPage("/au")
                     .loginProcessingUrl("/log")
                     .usernameParameter("login")
                     .passwordParameter("password")
-                    .failureUrl("/auth")
+                    //.failureUrl("/auth")
                     .successHandler(getAuthHandler())
                     .permitAll()
                 .and()
@@ -47,9 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**")
                         .hasAuthority("admin")//посмотреть
                     .antMatchers("/user/**")
-                        .hasRole("user")
-                .and()
-                .httpBasic();
+                        .hasRole("user");
     }
 
     @Bean
