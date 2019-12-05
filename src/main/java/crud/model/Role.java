@@ -34,6 +34,11 @@ public class Role implements Serializable, GrantedAuthority {
         this.users = users;
     }
 
+    public Role(String access, Set<User> users) {
+        this.access = access;
+        this.users = users;
+    }
+
     public int getId() {
         return roleId;
     }

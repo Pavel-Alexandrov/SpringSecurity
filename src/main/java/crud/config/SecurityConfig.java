@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .formLogin()
-                    .loginPage("/au")
+                    .loginPage("/admin/users")
                     .loginProcessingUrl("/log")
                     .usernameParameter("login")
                     .passwordParameter("password")
