@@ -1,6 +1,8 @@
 package crud.controller;
 
+import crud.model.Role;
 import crud.model.User;
+import crud.service.TestAddService;
 import crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,21 +12,45 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashSet;
+
 @Controller
 public class UserController {
 
     @Autowired
     public UserService userService;
 
+    @Autowired
+    public TestAddService testAddService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String test() {
+       // return "/codeAdd";
         return "/auth";
     }
 
-/*    @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public String test2() {
-        return "/user/profile";
-    }*/
+    @RequestMapping(value = "/testAdd", method = RequestMethod.POST)
+    public String test2(@ModelAttribute("name") String name,
+                        @ModelAttribute("login") String login,
+                        @ModelAttribute("password") String password,
+                        @ModelAttribute("access") String access) {
+        User user = new User(name, login, password, new HashSet<Role>());
+        Role role = new Role(access, new HashSet<User>());
+
+        HashSet<Role> roleHashSet = new HashSet<>();
+        roleHashSet.add(role);
+        user.setRoles(roleHashSet);
+
+        HashSet<User> userHashSet = new HashSet<>();
+        userHashSet.add(user);
+        role.setUsers(userHashSet);
+
+        user.setRoles(roleHashSet);
+        role.setUsers(userHashSet);
+
+        testAddService.fillTable(user, role);
+        return "/codeAdd";
+    }
 
 
 
@@ -98,4 +124,6 @@ public class UserController {
 
         return "/admin/users";
     }
+
+
 }

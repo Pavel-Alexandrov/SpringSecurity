@@ -1,5 +1,6 @@
 package crud.dao;
 
+import crud.model.Role;
 import crud.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

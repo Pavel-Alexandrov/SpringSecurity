@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
         Role role = new Role("user", users);
         user.setPassword(passwordEncoder.encode(user.getPassword()));  //кодирование пароля при регистрации, надеюсь, в нужном месте поставил
+        user.setPassword(user.getPassword());
 
         userDao.addUser(user);
         roleDao.addRole(role);

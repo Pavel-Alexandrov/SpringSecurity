@@ -33,7 +33,7 @@ public class User implements Serializable, UserDetails {
 
     //добавить поле role many-to-many ets
     //list/set roles @joinTable, @joinColumn
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "userID", referencedColumnName = "userID"),
