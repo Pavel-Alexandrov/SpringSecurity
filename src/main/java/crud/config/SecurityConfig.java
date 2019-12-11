@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan("crud")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private AuthHandler authHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -29,12 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .formLogin()
-                    .loginPage("/admin/users")
-                    .loginProcessingUrl("/log")
+                    .successHandler(authHandler)
+                    .successForwardUrl("/admin/users")
+                    .loginPage("/auth")
+                    .loginProcessingUrl("/auth")
                     .usernameParameter("login")
                     .passwordParameter("password")
-                    //.failureUrl("/auth")
-                    .successHandler(getAuthHandler())
+                    .failureUrl("/auth")
                     .permitAll()
                 .and()
                 .logout()
@@ -55,10 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthHandler getAuthHandler() {
-        return new AuthHandler();
-    }
+//    @Bean
+//    public AuthHandler getAuthHandler() {
+//        return new AuthHandler();
+//    }
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {

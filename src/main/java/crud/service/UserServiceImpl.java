@@ -51,11 +51,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id) {
         User user = userDao.deleteUser(id);
-        roleDao.deleteRole(
-                roleDao.getRoleByLogin(
-                        user.getLogin()
-                        )
-        );
     }
 
     @Override
