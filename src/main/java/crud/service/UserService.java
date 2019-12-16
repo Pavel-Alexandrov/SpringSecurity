@@ -20,5 +20,5 @@ public interface UserService {
 
     public User getUserByLogin(String login);
 
-    public Role getRoleByLogin(String login);
+    public Role getRoleByAccess(String login);
 }

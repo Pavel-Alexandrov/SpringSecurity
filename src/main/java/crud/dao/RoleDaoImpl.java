@@ -34,8 +34,8 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Role getRoleByLogin(String login) {
+    public Role getRoleByAccess(String access) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return (Role) entityManager.createQuery("FROM Role R WHERE R.login = :lg").setParameter("lg", login).getSingleResult();
+        return (Role) entityManager.createQuery("FROM Role R WHERE R.access = :acs").setParameter("acs", access).getSingleResult();
     }
 }

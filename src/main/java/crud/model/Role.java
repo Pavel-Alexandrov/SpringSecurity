@@ -22,21 +22,14 @@ public class Role implements Serializable, GrantedAuthority {
     @Column(name = "access")
     private String access;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "roles")
-    private Set<User> users = new HashSet<>(0);
+//    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "roles")
+//    private Set<User> users = new HashSet<>(0);
 
     public Role() {
     }
 
-    public Role(int id, String access, Set<User> users) {
-        this.roleId = id;
+    public Role(String access) {
         this.access = access;
-        this.users = users;
-    }
-
-    public Role(String access, Set<User> users) {
-        this.access = access;
-        this.users = users;
     }
 
     public int getId() {
@@ -47,20 +40,12 @@ public class Role implements Serializable, GrantedAuthority {
         return access;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
     public void setId(int id) {
         this.roleId = id;
     }
 
     public void setAccess(String access) {
         this.access = access;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     @Override

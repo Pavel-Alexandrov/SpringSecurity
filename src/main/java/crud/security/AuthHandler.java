@@ -36,7 +36,8 @@ public class AuthHandler implements AuthenticationSuccessHandler {
         } else if (isUser) {
             redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/user/home");
         } else {
-            throw new IOException("не установлены права");
+            redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/auth");
+//            throw new IOException("не установлены права");
         }
     }
 }

@@ -20,8 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan("crud")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AuthHandler authHandler;
+//    @Autowired
+//    private AuthHandler authHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -31,22 +31,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .formLogin()
-                    .successHandler(authHandler)
-                    .successForwardUrl("/admin/users")
-                    .loginPage("/auth")
-                    .loginProcessingUrl("/auth")
+                    .successHandler(getAuthHandler())
+//                    .successForwardUrl("/admin/home")
+                    .loginPage("/auth").permitAll()
+//                    .loginProcessingUrl("/log")
                     .usernameParameter("login")
                     .passwordParameter("password")
-                    .failureUrl("/auth")
-                    .permitAll()
+//                    .failureUrl("/")
                 .and()
                 .logout()
                     .permitAll()
                     .invalidateHttpSession(true)
-                    .logoutUrl("/out")
+//                    .logoutUrl("/out")
                     .logoutSuccessUrl("/auth")
                 .and()
                 .authorizeRequests()
+                    .anyRequest().authenticated()
                     .antMatchers("/admin/**")
                         .hasAuthority("admin")//посмотреть
                     .antMatchers("/user/**")
@@ -54,14 +54,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public AuthHandler getAuthHandler() {
-//        return new AuthHandler();
-//    }
+    @Bean
+    public AuthHandler getAuthHandler() {
+        return new AuthHandler();
+    }
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {

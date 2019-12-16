@@ -1,18 +1,17 @@
 package crud.controller;
 
-import crud.model.Role;
 import crud.model.User;
 import crud.service.TestAddService;
 import crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.HashSet;
 
 @Controller
 public class UserController {
@@ -23,45 +22,53 @@ public class UserController {
     @Autowired
     public TestAddService testAddService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String test() {
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public String auth() {
        // return "/codeAdd";
-        return "/auth";
+        return "/authentication";
     }
 
-    @RequestMapping(value = "/testAdd", method = RequestMethod.POST)
-    public String test2(@ModelAttribute("name") String name,
-                        @ModelAttribute("login") String login,
-                        @ModelAttribute("password") String password,
-                        @ModelAttribute("access") String access) {
-        User user = new User(name, login, password, new HashSet<Role>());
-        Role role = new Role(access, new HashSet<User>());
+    /*@RequestMapping(value = "/log", method = RequestMethod.GET)
+    public String test2() {
+         return "/codeAdd";
+        //return "/auth";
+    }*/
 
-        HashSet<Role> roleHashSet = new HashSet<>();
-        roleHashSet.add(role);
-        user.setRoles(roleHashSet);
-
-        HashSet<User> userHashSet = new HashSet<>();
-        userHashSet.add(user);
-        role.setUsers(userHashSet);
-
-        user.setRoles(roleHashSet);
-        role.setUsers(userHashSet);
-
-        testAddService.fillTable(user, role);
-        return "/codeAdd";
-    }
+    //этот метод создан для добавления закодированного юзера
+//    @RequestMapping(value = "/testAdd", method = RequestMethod.POST)
+//    public String test2(@ModelAttribute("name") String name,
+//                        @ModelAttribute("login") String login,
+//                        @ModelAttribute("password") String password,
+//                        @ModelAttribute("access") String access) {
+//        User user = new User(name, login, password, new HashSet<Role>());
+//        Role role = new Role(access, new HashSet<User>());
+//
+//        HashSet<Role> roleHashSet = new HashSet<>();
+//        roleHashSet.add(role);
+//        user.setRoles(roleHashSet);
+//
+//        HashSet<User> userHashSet = new HashSet<>();
+//        userHashSet.add(user);
+//        role.setUsers(userHashSet);
+//
+//        user.setRoles(roleHashSet);
+//        role.setUsers(userHashSet);
+//
+//        testAddService.fillTable(user, role);
+//        return "/codeAdd";
+//    }
 
 
 
     //Юзерские страницы
 
-    @RequestMapping(value = "/user/home", method = RequestMethod.POST)
-    public String UserProfile(@ModelAttribute("login") String login, Model model) {
-        User user = userService.getUserByLogin(login);
+    @RequestMapping(value = "/user/home", method = RequestMethod.GET)
+    public String UserProfile(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
 
         return "/user/profile";
+
     }
 
     @RequestMapping(value = "/user/update/{id}", method = RequestMethod.GET)
@@ -79,7 +86,7 @@ public class UserController {
     }
 
     //Админские страницы
-    @RequestMapping(value = "/admin/home", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
     public String userList(Model model) {
         model.addAttribute("newUser", new User());
         model.addAttribute("userList", userService.getAllUsers());

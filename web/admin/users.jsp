@@ -47,5 +47,8 @@
 <p><form action="/admin/add" method="get">
     <button>Добавить пользователя:</button>
 </form></p>
+<form action="/logout" method="get">
+    <button>Выйти</button>
+</form>
 </body>
 </html>

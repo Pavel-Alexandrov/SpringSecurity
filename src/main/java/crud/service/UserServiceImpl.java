@@ -5,6 +5,7 @@ import crud.dao.UserDao;
 import crud.model.Role;
 import crud.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
     public RoleDao roleDao;
 
     @Autowired
-    public PasswordEncoder passwordEncoder;
+    public BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAllUsers() {
@@ -31,20 +32,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        Set<User> users = new HashSet<>();
-        users.add(user);
+        Role role = new Role("user");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
 
-        Role role = new Role("user", users);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));  //кодирование пароля при регистрации, надеюсь, в нужном месте поставил
-        user.setPassword(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userDao.addUser(user);
-        roleDao.addRole(role);
     }
 
     @Override
     public void updateUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));  //тут тоже кодирование пароля
+
+        Role role = roleDao.getRoleByAccess("user");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
         userDao.updateUser(user);
     }
 
@@ -64,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRoleByLogin(String login) {
-        return roleDao.getRoleByLogin(login);
+    public Role getRoleByAccess(String login) {
+        return roleDao.getRoleByAccess(login);
     }
 }
