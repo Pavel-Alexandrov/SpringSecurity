@@ -1,10 +1,8 @@
 package crud.controller;
 
 import crud.model.User;
-import crud.service.TestAddService;
 import crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,46 +17,10 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    @Autowired
-    public TestAddService testAddService;
-
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public String auth() {
-       // return "/codeAdd";
         return "/authentication";
     }
-
-    /*@RequestMapping(value = "/log", method = RequestMethod.GET)
-    public String test2() {
-         return "/codeAdd";
-        //return "/auth";
-    }*/
-
-    //этот метод создан для добавления закодированного юзера
-//    @RequestMapping(value = "/testAdd", method = RequestMethod.POST)
-//    public String test2(@ModelAttribute("name") String name,
-//                        @ModelAttribute("login") String login,
-//                        @ModelAttribute("password") String password,
-//                        @ModelAttribute("access") String access) {
-//        User user = new User(name, login, password, new HashSet<Role>());
-//        Role role = new Role(access, new HashSet<User>());
-//
-//        HashSet<Role> roleHashSet = new HashSet<>();
-//        roleHashSet.add(role);
-//        user.setRoles(roleHashSet);
-//
-//        HashSet<User> userHashSet = new HashSet<>();
-//        userHashSet.add(user);
-//        role.setUsers(userHashSet);
-//
-//        user.setRoles(roleHashSet);
-//        role.setUsers(userHashSet);
-//
-//        testAddService.fillTable(user, role);
-//        return "/codeAdd";
-//    }
-
-
 
     //Юзерские страницы
 
@@ -68,7 +30,6 @@ public class UserController {
         model.addAttribute("user", user);
 
         return "/user/profile";
-
     }
 
     @RequestMapping(value = "/user/update/{id}", method = RequestMethod.GET)

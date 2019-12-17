@@ -31,8 +31,6 @@ public class User implements Serializable, UserDetails {
     @Column(name = "password")
     private String password;
 
-    //добавить поле role many-to-many ets
-    //list/set roles @joinTable, @joinColumn
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "user_roles",

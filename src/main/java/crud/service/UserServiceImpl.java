@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
         return userDao.getAllUsers();
     }
 
-    //переделать
     @Override
     public void addUser(User user, String access) {
         Role role = roleDao.getRoleByAccess(access);

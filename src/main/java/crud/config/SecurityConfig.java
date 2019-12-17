@@ -20,9 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan("crud")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private AuthHandler authHandler;
-
     @Autowired
     private UserDetailsService userDetailsService;
 
