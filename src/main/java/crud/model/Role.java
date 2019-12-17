@@ -52,4 +52,9 @@ public class Role implements Serializable, GrantedAuthority {
     public String getAuthority() {
         return access;
     }
+
+    @Override
+    public String toString() {
+        return access;
+    }
 }

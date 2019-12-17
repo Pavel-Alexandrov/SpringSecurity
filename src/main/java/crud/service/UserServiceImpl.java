@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
 
     //переделать
     @Override
-    public void addUser(User user) {
-        Role role = roleDao.getRoleByAccess("user");
+    public void addUser(User user, String access) {
+        Role role = roleDao.getRoleByAccess(access);
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);

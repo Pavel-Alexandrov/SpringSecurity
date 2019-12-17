@@ -11,6 +11,13 @@
     <p><input type="text" name="name"></p>
     <p>Password</p>
     <p><input type="text" name="password"></p>
+
+    <p>
+        <select required, name="access">
+            <option>admin</option>
+            <option>user</option>
+        </select>
+    </p>
     <p><input type="submit"></p>
 </form>
 </body>

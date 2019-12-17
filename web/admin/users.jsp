@@ -25,6 +25,7 @@
         <td>login</td>
         <td>name</td>
         <td>password</td>
+        <td>roles</td>
         <td>Эксклюзивные возможности</td>
     </tr>
     <c:forEach var="user" items="${userList}">
@@ -33,6 +34,9 @@
             <td><c:out value="${user.login}"/></td>
             <td><c:out value="${user.name}"/></td>
             <td><c:out value="${user.password}"/></td>
+            <td><c:forEach var = "role" items="${user.roles}">
+                <c:out value="${role}"/>
+            </c:forEach> </td>
             <td>
                 <form action="/admin/delete/${user.id}" method="post">
                     <button>Удалить пользователя</button>
